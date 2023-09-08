@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>products</title>
+    <style>
+        
+        .title {
+            margin: 5px;
+        }
+
+        .content {
+            margin: 5px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            flex: 20%;
+            padding: 10px;
+            margin: 5px;
+            background-color: #f3f3f3;
+            inline-size: 100%;
+        }
+
+        .name {
+            color: #00a36f;
+            text-decoration: none;
+        }
+
+        nav a {
+            color: #d64161;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+
+        .pagination {
+            margin: 0 auto;
+        }
+
+        .pagination span {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .page-number {
+            color: #d64161;
+            padding: 5px;
+            text-decoration: none;
+        }
+
+        .current-page-number {
+            color: #666
+        }
+
+    </style>
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2 class="title">(Page {{ pagination.page }})</h2>
+        {% for i in pagination.items %}
+        <div class="product">
+            
+            product name: {{i.product_name}}<br>
+            stock:{{i.stock_on_hand}}<br><br>
+            
+       </div>
+       {%endfor%}
+    </div>
+
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <span>
+                <a class='page-number' href="{{ url_for('desc', page=pagination.prev_num) }}">
+                    {{ '<<<' }}
+                </a>
+            </span>
+        {% endif %}
+    
+        {% for number in pagination.iter_pages() %}
+            {% if pagination.page != number %}
+                <span>
+                        <a class='page-number'
+                            href="{{ url_for('desc', page=number) }}">
+                        {{ number }}
+                        </a>
+                </span>
+            {% else %}
+                <span class='current-page-number'>{{ number }}</span>
+            {% endif %}
+        {% endfor %}
+    
+        {% if pagination.has_next %}
+            <span>
+                <a class='page-number'
+                    href="{{ url_for('desc', page=pagination.next_num) }}">
+                    {{ '>>>' }}
+                </a>
+            </span>
+        {% endif %}
+    </div>
+</body>
+</html>
